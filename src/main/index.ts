@@ -3,6 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { getSalesData } from './api/getSalesData'
+import { headers, submitSalesDataUrl } from './helpers/endpoints'
 
 function createWindow(): void {
   // Create the browser window.
@@ -56,30 +57,8 @@ app.whenReady().then(() => {
       const salesData = await getSalesData();
       // console.log('salesData', salesData);
 
-      // create date with yyyymmdd format
-      const date = new Date();
-      const year = date.getFullYear();
-      const month = (1 + date.getMonth()).toString().padStart(2, '0');
-      const day = date.getDate().toString().padStart(2, '0');
-      const formattedDate = year + month + day;
-      console.log('formattedDate', formattedDate);
-
-      // Construct the URL with parameters
-      const DaytonReg = process.env.DAYTON_REG;
-      const DaytonSubCode = process.env.DAYTON_SUBCODE;
-      const url = `http://13.67.56.85:8510/RASUAT.WebAPI/SalesDetail/SubmitSalesDetail?RDBusinessRegNo=${DaytonReg}&RDSubCode=${DaytonSubCode}&TransDate=${new Date().toISOString().replace(/[-:T]/g, '').split('.')[0]}`;
-
-
-      // Encode username and password to base64
-      const username = process.env.USER_NAME;
-      const password = process.env.USER_PASSWORD;
-      const encodedCredentials = btoa(`${username}:${password}`);
-      let headers = new Headers();
-      headers.set('Authorization', `Basic ${encodedCredentials}`);
-      headers.set('Content-Type', 'application/json');
-
       // Send HTTP PUT request
-      const response = await fetch(url, {
+      const response = await fetch(submitSalesDataUrl, {
         method: 'PUT',
         body: JSON.stringify(salesData),
         headers: headers,
