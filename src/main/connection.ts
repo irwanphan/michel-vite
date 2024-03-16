@@ -1,4 +1,4 @@
-import mysql, { createPool, Pool } from 'mysql2/promise'
+import { createPool, Pool } from 'mysql2/promise'
 require('dotenv').config()
 
 const databaseConfig = {
