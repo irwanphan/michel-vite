@@ -2,8 +2,8 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { getSalesData } from './api/getSalesData'
-import { headers, submitSalesDataUrl } from './helpers/endpoints'
+import { getSalesDetail } from './api/getSalesDetail'
+import { headers, submitSalesDetailUrl } from './helpers/endpoints'
 
 function createWindow(): void {
   // Create the browser window.
@@ -51,16 +51,16 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC Submit Sales Data
-  ipcMain.on('submit-sales-data', async () => {
+  // IPC Submit Sales Detail
+  ipcMain.on('submit-sales-detail', async () => {
     try {
-      const salesData = await getSalesData();
-      // console.log('salesData', salesData);
+      const salesDetail = await getSalesDetail();
+      // console.log('salesDetail', salesDetail);
 
       // Send HTTP PUT request
-      const response = await fetch(submitSalesDataUrl, {
+      const response = await fetch(submitSalesDetailUrl, {
         method: 'PUT',
-        body: JSON.stringify(salesData),
+        body: JSON.stringify(salesDetail),
         headers: headers,
       })
       const jsonBody = await response.json();

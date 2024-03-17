@@ -1,14 +1,6 @@
 import { pool } from '../../connection'
 
-// connection.connect((error:any) => {
-//     if (error) {
-//       console.error('Database connection failed: ', error)
-//     } else {
-//       console.log('Database connected successfully')
-//     }
-//   })
-
-const sqlQuerySales = `
+const sqlQuerySalesDetail = `
   SELECT tbt.KodePelanggan AS ADRegNo,
   tbpelanggan.Nama AS ADCustomerName,
   'IV' AS DocType,
@@ -28,13 +20,13 @@ const sqlQuerySales = `
   AND tbt.TglForm<='2023-12-31'
 `;
 
-export const getSalesData = async () => {
+export const getSalesDetail = async () => {
     let connection;
     try {
         connection = await pool.getConnection();
-        const salesData = await connection.query(sqlQuerySales);
-        // console.log('rows', salesData[0]);
-        return salesData[0];
+        const salesDetail = await connection.query(sqlQuerySalesDetail);
+        // console.log('rows', salesDetail[0]);
+        return salesDetail[0];
     } catch (error) {
         throw error;
     } finally {

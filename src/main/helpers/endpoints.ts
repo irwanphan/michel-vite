@@ -13,5 +13,5 @@ export { headers };
 const DaytonReg = process.env.DAYTON_REG;
 const DaytonSubCode = process.env.DAYTON_SUBCODE;
 const date = formatDate()
-export const submitSalesDataUrl = `http://13.67.56.85:8510/RASUAT.WebAPI/SalesDetail/SubmitSalesDetail?RDBusinessRegNo=${DaytonReg}&RDSubCode=${DaytonSubCode}&TransDate=${date}`;
-export const submitStockDataUrl = `http://13.67.56.85:8510/RAS.WebAPI/Stock/SubmitStockDetail?RDBusinessRegNo=${DaytonReg}&RDFileCode=${DaytonSubCode}&TransDate=${date}`;
+export const submitSalesDetailUrl = `http://13.67.56.85:8510/RASUAT.WebAPI/SalesDetail/SubmitSalesDetail?RDBusinessRegNo=${DaytonReg}&RDSubCode=${DaytonSubCode}&TransDate=${date}`;
+export const submitStockDetailUrl = `http://13.67.56.85:8510/RAS.WebAPI/Stock/SubmitStockDetail?RDBusinessRegNo=${DaytonReg}&RDFileCode=${DaytonSubCode}&TransDate=${date}`;

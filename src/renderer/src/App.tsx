@@ -2,7 +2,7 @@ import Versions from './components/Versions'
 // import electronLogo from './assets/electron.svg'
 
 function App(): JSX.Element {
-  const submitSalesDataHandler = (): void => window.electron.ipcRenderer.send('submit-sales-data')
+  const submitSalesDetailHandler = (): void => window.electron.ipcRenderer.send('submit-sales-detail')
 
   return (
     <>
@@ -23,7 +23,7 @@ function App(): JSX.Element {
         </div>
         <div className="action">
           <a target="_blank" rel="noreferrer" 
-            // onClick={submitSalesDataHandler}
+            // onClick={submitSalesDetailHandler}
             >
             Upload Sales Data
           </a>
