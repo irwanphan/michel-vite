@@ -1,7 +1,8 @@
+import SalesDetail from './components/SalesDetail'
 import Versions from './components/Versions'
 // import electronLogo from './assets/electron.svg'
 
-function App(): JSX.Element {
+const App = (): JSX.Element => {
   const submitSalesDetailHandler = (): void => window.electron.ipcRenderer.send('submit-sales-detail')
   const submitStockDetailHandler = (): void => window.electron.ipcRenderer.send('submit-stock-detail')
 
@@ -16,6 +17,7 @@ function App(): JSX.Element {
       {/* <p className="tip">
         Please try pressing <code>F12</code> to open the devTool
       </p> */}
+
       <div className="actions">
         
         <div className="action">
@@ -33,6 +35,9 @@ function App(): JSX.Element {
           </a>
         </div>
       </div>
+
+      <SalesDetail />
+
       <Versions></Versions>
     </>
   )

@@ -17,6 +17,6 @@ export const formatDateTime = () => {
 }
 
 // create date with FYyyyyMmm format
-export const formatFYyyyyMmm = () => {
+export const formatDateFYM = () => {
     return `FY${year}M${month}`;
 }
