@@ -20,7 +20,7 @@ const sqlQuerySalesDetail = `
   AND tbt.TglForm<='2023-12-31'
 `;
 
-export const getSalesDetail = async () => {
+export const getTokoproSalesDetail = async () => {
     let connection;
     try {
         connection = await pool.getConnection();

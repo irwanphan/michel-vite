@@ -2,8 +2,8 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { getSalesDetail } from './api/getSalesDetail'
-import { getStockDetail } from './api/getStockDetail'
+import { getTokoproSalesDetail } from './api/getTokoproSalesDetail'
+import { getTokoproStockDetail } from './api/getTokoproStockDetail'
 import { headers, submitSalesDetailUrl, submitStockDetailUrl } from './helpers/endpoints'
 
 function createWindow(): void {
@@ -55,7 +55,7 @@ app.whenReady().then(() => {
   // IPC Submit Sales Detail
   ipcMain.on('submit-sales-detail', async () => {
     try {
-      const salesDetail = await getSalesDetail();
+      const salesDetail = await getTokoproSalesDetail();
       // console.log('salesDetail', salesDetail);
 
       // Send HTTP PUT request
@@ -76,10 +76,11 @@ app.whenReady().then(() => {
   // IPC Submit Stock Detail
   ipcMain.on('submit-stock-detail', async () => {
     try {
-      const stockDetail = await getStockDetail();
-      // console.log('stockDetail', stockDetail);
+      const stockDetail = await getTokoproStockDetail();
+      console.log('stockDetail', stockDetail);
 
       // Send HTTP PUT request
+      // console.log('submitStockDetailUrl', submitStockDetailUrl);
       const response = await fetch(submitStockDetailUrl, {
         method: 'PUT',
         body: JSON.stringify(stockDetail),

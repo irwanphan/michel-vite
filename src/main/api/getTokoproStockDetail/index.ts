@@ -7,7 +7,7 @@ const sqlQueryStockDetail = `
     AND tbbarang.KodeMerk='MICHELIN'
 `;
 
-export const getStockDetail = async () => {
+export const getTokoproStockDetail = async () => {
     let connection;
     try {
         connection = await pool.getConnection();
