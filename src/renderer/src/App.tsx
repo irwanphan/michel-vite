@@ -1,20 +1,20 @@
 import Versions from './components/Versions'
-import electronLogo from './assets/electron.svg'
+// import electronLogo from './assets/electron.svg'
 
 function App(): JSX.Element {
-  const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+  const submitSalesDataHandler = (): void => window.electron.ipcRenderer.send('submit-sales-data')
 
   return (
     <>
-      <img alt="logo" className="logo" src={electronLogo} />
-      <div className="creator">Powered by electron-vite</div>
+      {/* <img alt="logo" className="logo" src={electronLogo} /> */}
+      {/* <div className="creator">Powered by electron-vite</div> */}
       <div className="text">
-        Build an Electron app with <span className="react">React</span>
-        &nbsp;and <span className="ts">TypeScript</span>
+        Custom Extension <span className="react">TokoPro</span>
+        &nbsp;for <span className="ts">Michelin</span>
       </div>
-      <p className="tip">
+      {/* <p className="tip">
         Please try pressing <code>F12</code> to open the devTool
-      </p>
+      </p> */}
       <div className="actions">
         <div className="action">
           <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
@@ -22,8 +22,10 @@ function App(): JSX.Element {
           </a>
         </div>
         <div className="action">
-          <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
-            Send IPC
+          <a target="_blank" rel="noreferrer" 
+            // onClick={submitSalesDataHandler}
+            >
+            Upload Sales Data
           </a>
         </div>
       </div>

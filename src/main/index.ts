@@ -51,8 +51,8 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
-  ipcMain.on('ping', async () => {
+  // IPC Submit Sales Data
+  ipcMain.on('submit-sales-data', async () => {
     try {
       const salesData = await getSalesData();
       // console.log('salesData', salesData);

@@ -166,6 +166,7 @@ code {
 @media (max-width: 350px) {
   .tip,
   .actions {
-    display: none;
+    /* display: none; */
+    flex-direction: column;
   }
 }
