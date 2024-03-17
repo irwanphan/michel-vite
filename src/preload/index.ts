@@ -1,10 +1,9 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
-import { getSalesDetailUrl } from '../main/helpers/endpoints'
 
 // Custom APIs for renderer
 const api = {
-  getSalesDetailUrl: () => { return getSalesDetailUrl }
+  setData: (data: any) => ipcRenderer.send('set-data', data)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

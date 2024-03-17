@@ -4,7 +4,14 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { getTokoproSalesDetail } from './api/getTokoproSalesDetail'
 import { getTokoproStockDetail } from './api/getTokoproStockDetail'
-import { headers, submitSalesDetailUrl, submitStockDetailUrl } from './helpers/endpoints'
+import { getSalesDetailUrl, headers, submitSalesDetailUrl, submitStockDetailUrl } from './helpers/endpoints'
+
+const getSalesDetail = async () => {
+  const salesDetail = await fetch(getSalesDetailUrl, {
+    method: "GET"
+  })
+  return salesDetail
+}
 
 function createWindow(): void {
   // Create the browser window.
@@ -52,6 +59,12 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
+  // hit getSalesDetailUrl and console.log it
+  ipcMain.on('get-sales-detail', async () => {
+    const salesDetail = await getSalesDetail()
+    console.log(salesDetail)
+  })
+  
   // IPC Submit Sales Detail
   ipcMain.on('submit-sales-detail', async () => {
     try {

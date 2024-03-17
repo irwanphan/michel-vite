@@ -20,5 +20,5 @@ export const submitSalesDetailUrl = `http://13.67.56.85:8510/RASUAT.WebAPI/Sales
 
 export const submitStockDetailUrl = `http://13.67.56.85:8510/RAS.WebAPI/Stock/SubmitStockDetail?RDBusinessRegNo=${DaytonReg}&RDFileCode=${DaytonSubCode}&TransDate=${datetime}`;
 
-export const getSalesDetailUrl = `http://13.67.56.85:8510/RAS.WebAPI/SalesDetail/GetSalesDetail? 
-RDBusinessRegNo=${DaytonReg}&RDSubCode=${DaytonSubCode}&TransMonth=${dateFYM}` 
+export const getSalesDetailUrl = `http://redistributionapproach.michelin.com.my/RAS.WebAPI/SalesDetail/GetSalesDetail? 
+RDBusinessRegNo=${DaytonReg}&RDSubCode=${DaytonSubCode}&TransMonth=${dateFYM}`;

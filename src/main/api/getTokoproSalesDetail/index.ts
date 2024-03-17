@@ -1,23 +1,23 @@
 import { pool } from '../../connection'
 
 const sqlQuerySalesDetail = `
-  SELECT tbt.KodePelanggan AS ADRegNo,
-  tbpelanggan.Nama AS ADCustomerName,
-  'IV' AS DocType,
-  DATE_FORMAT(tbt.TglForm, '%Y%m%d') AS InvoiceDate,
-  tbt.NoForm AS InvoiceNo,
-  tbitem.NoItem AS ItemNo,
-  tbitem.KodeBarang AS PartNumber,
-  tbitem.NamaBarang AS PartDesc,
-  tbitem.KodeBarang AS CAI,
-  tbitem.Qty AS Qty 
-  FROM tbfakturjual tbt, tbfakturjual_item tbitem, tbpelanggan, tbbarang   
-  WHERE tbt.NoForm=tbitem.NoForm 
-  AND tbt.KodePelanggan=tbpelanggan.Kode 
-  AND tbitem.KodeBarang=tbbarang.Kode 
-  AND tbbarang.KodeMerk='MICHELIN'
-  AND tbt.TglForm>='2023-12-01' 
-  AND tbt.TglForm<='2023-12-31'
+    SELECT tbt.KodePelanggan ADRegNo, 
+        tbpelanggan.Nama ADCustomerName, 
+        'IV' DocType, 
+        DATE_FORMAT(tbt.TglForm,'%Y%m%d') InvoiceDate, 
+        tbt.NoForm InvoiceNo, 
+        tbitem.NoItem ItemNo, 
+        tbitem.KodeBarang PartNumber, 
+        tbitem.NamaBarang PartDesc, 
+        tbitem.KodeBarang CAI, 
+        tbitem.Qty Qty 
+    FROM tbfakturjual tbt, tbfakturjual_item tbitem, tbpelanggan, tbbarang   
+        WHERE tbt.NoForm=tbitem.NoForm 
+        AND tbt.KodePelanggan=tbpelanggan.Kode 
+        AND tbitem.KodeBarang=tbbarang.Kode 
+        AND tbbarang.KodeMerk='MICHELIN'
+        AND tbt.TglForm>=IF(DAY(CURDATE())<=5,DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-01'),DATE_FORMAT(CURDATE(), '%Y-%m-06'))
+        AND tbt.TglForm<=IF(DAY(CURDATE())<=5,DATE_FORMAT(CURDATE(),'%Y-%m-05'),LAST_DAY(CURDATE()))
 `;
 
 export const getTokoproSalesDetail = async () => {
