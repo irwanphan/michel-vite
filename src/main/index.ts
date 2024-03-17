@@ -3,7 +3,8 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { getSalesDetail } from './api/getSalesDetail'
-import { headers, submitSalesDetailUrl } from './helpers/endpoints'
+import { getStockDetail } from './api/getStockDetail'
+import { headers, submitSalesDetailUrl, submitStockDetailUrl } from './helpers/endpoints'
 
 function createWindow(): void {
   // Create the browser window.
@@ -69,6 +70,27 @@ app.whenReady().then(() => {
     } catch (error) {
       throw error;
       // throw new Error('Error fetching sales data');
+    }
+  })
+
+  // IPC Submit Stock Detail
+  ipcMain.on('submit-stock-detail', async () => {
+    try {
+      const stockDetail = await getStockDetail();
+      // console.log('stockDetail', stockDetail);
+
+      // Send HTTP PUT request
+      const response = await fetch(submitStockDetailUrl, {
+        method: 'PUT',
+        body: JSON.stringify(stockDetail),
+        headers: headers,
+      })
+      const jsonBody = await response.json();
+      console.log('response', jsonBody);
+
+    } catch (error) {
+      throw error;
+      // throw new Error('Error fetching stock data');
     }
   })
 

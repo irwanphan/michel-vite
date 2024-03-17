@@ -3,6 +3,7 @@ import Versions from './components/Versions'
 
 function App(): JSX.Element {
   const submitSalesDetailHandler = (): void => window.electron.ipcRenderer.send('submit-sales-detail')
+  const submitStockDetailHandler = (): void => window.electron.ipcRenderer.send('submit-stock-detail')
 
   return (
     <>
@@ -16,16 +17,19 @@ function App(): JSX.Element {
         Please try pressing <code>F12</code> to open the devTool
       </p> */}
       <div className="actions">
+        
         <div className="action">
-          <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
-            Documentation
+          <a rel="noreferrer" 
+            onClick={submitSalesDetailHandler}
+            >
+            Upload Sales Detail
           </a>
         </div>
         <div className="action">
-          <a target="_blank" rel="noreferrer" 
-            // onClick={submitSalesDetailHandler}
+          <a rel="noreferrer" 
+            onClick={submitStockDetailHandler}
             >
-            Upload Sales Data
+            Upload Stock Detail
           </a>
         </div>
       </div>
