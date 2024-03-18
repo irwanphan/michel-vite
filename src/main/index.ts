@@ -6,13 +6,6 @@ import { getTokoproSalesDetail } from './api/getTokoproSalesDetail'
 import { getTokoproStockDetail } from './api/getTokoproStockDetail'
 import { getSalesDetailUrl, headers, submitSalesDetailUrl, submitStockDetailUrl } from './helpers/endpoints'
 
-const getSalesDetail = async () => {
-  const salesDetail = await fetch(getSalesDetailUrl, {
-    method: "GET"
-  })
-  return salesDetail
-}
-
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -61,8 +54,18 @@ app.whenReady().then(() => {
 
   // hit getSalesDetailUrl and console.log it
   ipcMain.on('get-sales-detail', async () => {
-    const salesDetail = await getSalesDetail()
-    console.log(salesDetail)
+    try {
+      const salesDetail = await fetch(getSalesDetailUrl, {
+        method: "GET",
+        headers: headers
+      })
+      const jsonBody = await salesDetail.json();
+      console.log('jsonBody', jsonBody);
+      ipcMain.emit('sales-detail-emitted', jsonBody);
+  
+    } catch (error) {
+      throw error;
+    }
   })
   
   // IPC Submit Sales Detail

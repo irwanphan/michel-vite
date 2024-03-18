@@ -17,11 +17,11 @@ const datetime = formatDateTime()
 const dateFYM = formatDateFYM()
 
 const isProduction = process.env.NODE_ENV === 'production';
-const url = isProduction ? process.env.URL_PROD : process.env.URL_DEV;
+const url = isProduction ? `${process.env.URL_PROD}` : `${process.env.URL_DEV}`;
 
 export const submitSalesDetailUrl = `${url}/SalesDetail/SubmitSalesDetail?RDBusinessRegNo=${DaytonReg}&RDSubCode=${DaytonSubCode}&TransDate=${date}`;
 
 export const submitStockDetailUrl = `${url}/Stock/SubmitStockDetail?RDBusinessRegNo=${DaytonReg}&RDFileCode=${DaytonSubCode}&TransDate=${datetime}`;
 
-export const getSalesDetailUrl = `${url}/SalesDetail/GetSalesDetail? 
-RDBusinessRegNo=${DaytonReg}&RDSubCode=${DaytonSubCode}&TransMonth=${dateFYM}`;
+// export const getSalesDetailUrl = `${url}/SalesDetail/GetSalesDetail?RDBusinessRegNo=${DaytonReg}&RDSubCode=${DaytonSubCode}&TransMonth=${dateFYM}`;
+export const getSalesDetailUrl = `${url}/SalesDetail/GetSalesDetail?RDBusinessRegNo=${DaytonReg}&RDSubCode=${DaytonSubCode}&TransMonth=FY2023M05`;
