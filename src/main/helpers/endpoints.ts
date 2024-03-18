@@ -16,9 +16,12 @@ const date = formatDate()
 const datetime = formatDateTime()
 const dateFYM = formatDateFYM()
 
-export const submitSalesDetailUrl = `http://13.67.56.85:8510/RASUAT.WebAPI/SalesDetail/SubmitSalesDetail?RDBusinessRegNo=${DaytonReg}&RDSubCode=${DaytonSubCode}&TransDate=${date}`;
+const isProduction = process.env.NODE_ENV === 'production';
+const url = isProduction ? process.env.URL_PROD : process.env.URL_DEV;
 
-export const submitStockDetailUrl = `http://13.67.56.85:8510/RAS.WebAPI/Stock/SubmitStockDetail?RDBusinessRegNo=${DaytonReg}&RDFileCode=${DaytonSubCode}&TransDate=${datetime}`;
+export const submitSalesDetailUrl = `${url}/SalesDetail/SubmitSalesDetail?RDBusinessRegNo=${DaytonReg}&RDSubCode=${DaytonSubCode}&TransDate=${date}`;
 
-export const getSalesDetailUrl = `http://redistributionapproach.michelin.com.my/RAS.WebAPI/SalesDetail/GetSalesDetail? 
+export const submitStockDetailUrl = `${url}/Stock/SubmitStockDetail?RDBusinessRegNo=${DaytonReg}&RDFileCode=${DaytonSubCode}&TransDate=${datetime}`;
+
+export const getSalesDetailUrl = `${url}/SalesDetail/GetSalesDetail? 
 RDBusinessRegNo=${DaytonReg}&RDSubCode=${DaytonSubCode}&TransMonth=${dateFYM}`;
