@@ -1,0 +1,45 @@
+.container {
+    padding: 2rem;
+}
+
+.label {
+    display: block;
+    margin-bottom: 5px;
+}
+.input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.buttonGroup {
+    display: block;
+    justify-content: space-between;
+    width: 100%;
+    text-align: right;
+}
+.buttonGroup > * {
+    margin-left: 10px;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    color: #fff;
+    padding: 0.75rem 1.25rem;
+}
+.button {
+    cursor: pointer;
+    background-color: #007bff;
+}
+.button:hover {
+    background-color: #0056b3;
+}
+.cancelButton {
+    background-color: #dc3545;
+}
+.cancelButton:hover {
+    background-color: #bd2130;
+}

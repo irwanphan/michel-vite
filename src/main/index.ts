@@ -6,10 +6,13 @@ import { getTokoproSalesDetail } from './api/getTokoproSalesDetail'
 import { getTokoproStockDetail } from './api/getTokoproStockDetail'
 import { getSalesDetailUrl, headers, submitSalesDetailUrl, submitStockDetailUrl } from './helpers/endpoints'
 
+let mainWindow: any
+
 function createWindow(): void {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 900,
+  // const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
+    width: 800,
     height: 670,
     show: false,
     autoHideMenuBar: true,
@@ -53,7 +56,7 @@ app.whenReady().then(() => {
   })
 
   // hit getSalesDetailUrl and console.log it
-  ipcMain.on('get-sales-detail', async () => {
+  ipcMain.on('get-sales-detail', async (event) => {
     try {
       const salesDetail = await fetch(getSalesDetailUrl, {
         method: "GET",
@@ -61,7 +64,8 @@ app.whenReady().then(() => {
       })
       const jsonBody = await salesDetail.json();
       console.log('jsonBody', jsonBody);
-      ipcMain.emit('sales-detail-emitted', jsonBody);
+      // ipcMain.emit('sales-detail-emitted', jsonBody);
+      event.reply('reply-sales-detail', jsonBody);
   
     } catch (error) {
       throw error;
@@ -104,6 +108,7 @@ app.whenReady().then(() => {
       })
       const jsonBody = await response.json();
       console.log('response', jsonBody);
+      
 
     } catch (error) {
       throw error;
