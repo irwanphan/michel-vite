@@ -16,16 +16,18 @@ const SalesDetail = () => {
             <p>
                 Uploaded sales detail.
                 {salesDetail && 
-                    salesDetail.map((detail: any) => {
-                        return (
-                            <div key={detail.id}>
-                                <p>{detail.id}</p>
-                                <p>{detail.name}</p>
-                                <p>{detail.price}</p>
-                            </div>
-                        )
-                    }
-                )}
+                    // salesDetail.map((detail: any) => {
+                    //     return (
+                    //         <div key={detail.id}>
+                    //             <p>{detail.id}</p>
+                    //             <p>{detail.name}</p>
+                    //             <p>{detail.price}</p>
+                    //         </div>
+                    //     )
+                    // }
+                    // )
+                    <>asdf</>
+                }
             </p>
         </div>
     )

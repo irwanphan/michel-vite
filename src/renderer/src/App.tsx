@@ -1,4 +1,3 @@
-import { get } from 'http'
 import SalesDetail from './components/SalesDetail'
 import Versions from './components/Versions'
 // import electronLogo from './assets/electron.svg'
