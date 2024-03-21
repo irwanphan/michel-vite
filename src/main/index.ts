@@ -148,6 +148,20 @@ app.whenReady().then(() => {
     } 
   })
 
+  ipcMain.on('get-last-updates', async (event) => {
+    try {
+      const lastSalesUpdate = store.get('lastSalesUpdate');
+      const lastStockUpdate = store.get('lastStockUpdate');
+      const reply = {
+        lastSalesUpdate,
+        lastStockUpdate
+      }
+      event.reply('get-last-updates-reply', reply);
+    } catch (error) {
+      throw error;
+    }
+  })
+
   createWindow()
 
   app.on('activate', function () {

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 const MainScreen = (): JSX.Element => {
   const [ isSubmitting, setIsSubmitting ] = useState(false)
   const [ statusMessage, setStatusMessage ] = useState('')
+  const [ lastUpdates, setLastUpdates ] = useState({})
 
   // const getSalesDetailHandler = (): void => {
   //   setIsSubmitting(true)
@@ -38,16 +39,25 @@ const MainScreen = (): JSX.Element => {
     console.log('submitted: ', arg.statusText);
     setStatusMessage(`submitting stock detail ... ${arg.statusText}`)
   });
+  window.electron.ipcRenderer.on('get-last-updates-reply', (_event, arg) => {
+    console.log('get-last-updates-reply', arg);
+    setLastUpdates(arg)
+  })
   useEffect(() => {
     setStatusMessage('Initial load ... OK')
+    window.electron.ipcRenderer.send('get-last-updates')
   }, [])
   useEffect(() => {
     if (!isSubmitting) {
       // window.electron.ipcRenderer.removeAllListeners('get-sales-detail-reply')
+      window.electron.ipcRenderer.removeAllListeners('get-last-updates-reply')
       window.electron.ipcRenderer.removeAllListeners('submit-sales-detail-reply')
-      window.electron.ipcRenderer.removeAllListeners('submit-stock-detail-reply')
+      window.electron.ipcRenderer.send('get-last-updates')
     }
   }, [isSubmitting])
+  useEffect(() => {
+    window.electron.ipcRenderer.removeAllListeners('submit-stock-detail-reply')
+  }, [lastUpdates])
   
   return (
     <>
@@ -93,7 +103,12 @@ const MainScreen = (): JSX.Element => {
         </div>
       </div>
 
-      <div id="data-container"></div>
+      <div>
+        <h3>Last Updates</h3>
+        <pre>
+          { JSON.stringify(lastUpdates, null, 2) }
+        </pre>
+      </div>
     </>
   )
 }
