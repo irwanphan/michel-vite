@@ -55,23 +55,20 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // hit getSalesDetailUrl and console.log it
+  // hit getSalesDetailUrl, send to renderer
   ipcMain.on('get-sales-detail', async (event) => {
     try {
-      const salesDetail = await fetch(getSalesDetailUrl, {
+      const response = await fetch(getSalesDetailUrl, {
         method: "GET",
         headers: headers
       })
-      const jsonBody = await salesDetail.json();
-      const status = {
-        status: salesDetail.status,
-        statusText: salesDetail.statusText
+      const jsonBody = await response.json();
+      const reply = {
+        response: jsonBody,
+        status: response.status,
+        statusText: response.statusText
       }
-      console.log('status', status);
-      // console.log('jsonBody', jsonBody);
-      // ipcMain.emit('sales-detail-emitted', jsonBody);
-      event.reply('get-sales-detail-reply', jsonBody);
-      event.reply('get-sales-detail-status', status);
+      event.reply('get-sales-detail-reply', reply);
   
     } catch (error) {
       throw error;
@@ -79,7 +76,7 @@ app.whenReady().then(() => {
   })
   
   // IPC Submit Sales Detail
-  ipcMain.on('submit-sales-detail', async () => {
+  ipcMain.on('submit-sales-detail', async (event) => {
     try {
       const salesDetail = await getTokoproSalesDetail();
       // console.log('salesDetail', salesDetail);
@@ -91,11 +88,16 @@ app.whenReady().then(() => {
         headers: headers,
       })
       const jsonBody = await response.json();
-      console.log('response', jsonBody);
+
+      const reply = {
+        response: jsonBody,
+        status: response.status,
+        statusText: response.statusText
+      }
+      event.reply('submit-sales-detail-reply', reply);
 
     } catch (error) {
       throw error;
-      // throw new Error('Error fetching sales data');
     }
   })
 

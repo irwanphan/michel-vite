@@ -53,6 +53,7 @@ body {
   background: var(--color-background);
   line-height: 1.6;
   font-family:
+    Calibri,
     Inter,
     -apple-system,
     BlinkMacSystemFont,
@@ -68,4 +69,17 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--ev-button-alt-border);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-size: 1rem;
+}
+button:hover {
+  border: 1px solid var(--ev-button-alt-hover-border);
+  background-color: lightblue;
 }

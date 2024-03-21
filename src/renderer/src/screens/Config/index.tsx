@@ -33,8 +33,8 @@ const ConfigScreen = () => {
       </label>
 
       <div className={styles.buttonGroup}>
-        <button className={styles.button} onClick={() => navigate('/')}>Cencel</button>
-        <button className={styles.button}>Save</button>
+        <button onClick={() => navigate('/')}>Cencel</button>
+        <button>Save</button>
       </div>
     </div>
   )

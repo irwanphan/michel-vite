@@ -1,30 +1,39 @@
-// import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 // import SalesDetail from '../../components/SalesDetail'
 // import Versions from '../../components/Versions'
-// import { useWindowStore } from './store'
-// import electronLogo from './assets/electron.svg'
 
 const MainScreen = (): JSX.Element => {
-  // const [ salesDetail, setSalesDetail ] = useState()
-  // const [ isLoading, setIsLoading ] = useState(true)
+  const [ isSubmitting, setIsSubmitting ] = useState(false)
+  const [ statusMessage, setStatusMessage ] = useState('')
 
-  const submitSalesDetailHandler = (): void => window.electron.ipcRenderer.send('submit-sales-detail')
-  const getSalesDetailHandler = (): void => window.electron.ipcRenderer.send('get-sales-detail')
+  const submitSalesDetailHandler = (): void => {
+    setIsSubmitting(true)
+    setStatusMessage(`submitting sales detail ... `)
+    window.electron.ipcRenderer.send('submit-sales-detail')
+  } 
+  const getSalesDetailHandler = (): void => {
+    setIsSubmitting(true)
+    setStatusMessage(`getting sales detail ... `)
+    window.electron.ipcRenderer.send('get-sales-detail')
+  }
   const submitStockDetailHandler = (): void => window.electron.ipcRenderer.send('submit-stock-detail')
 
   const navigate = useNavigate()
 
   window.electron.ipcRenderer.on('get-sales-detail-reply', (_event, arg) => {
+    setIsSubmitting(false)
     console.log('get-sales-detail-reply', arg);
-    // setSalesDetail(arg);
+    setStatusMessage(`getting sales detail ... ${arg.statusText}`)
   });
-  window.electron.ipcRenderer.on('get-sales-detail-status', (_event, arg) => {
-    console.log('get-sales-detail-status', arg);
+  window.electron.ipcRenderer.on('submit-sales-detail-reply', (_event, arg) => {
+    setIsSubmitting(false)
+    console.log('submitted: ', arg.statusText);
+    setStatusMessage(`submitting sales detail ... ${arg.statusText}`)
   });
-  // useEffect(() => {
-
-  // }, [salesDetail])
+  useEffect(() => {
+    setStatusMessage('initial load ... OK')
+  }, [])
   
   return (
     <>
@@ -34,9 +43,9 @@ const MainScreen = (): JSX.Element => {
         Custom Extension <span className="react">TokoPro</span>
         &nbsp;for <span className="ts">Michelin</span>
       </div>
-      {/* <p className="tip">
-        Please try pressing <code>F12</code> to open the devTool
-      </p> */}
+      <p className="tip">
+        { statusMessage }
+      </p>
 
       <button onClick={() => navigate('config')}>
         Go to Config
@@ -45,25 +54,25 @@ const MainScreen = (): JSX.Element => {
       <div className="actions">
         
         <div className="action">
-          <a rel="noreferrer" 
-            onClick={submitSalesDetailHandler}
-            >
+          <button onClick={submitSalesDetailHandler}
+            disabled={isSubmitting}
+          >
             Upload Sales Detail
-          </a>
+          </button>
         </div>
         <div className="action">
-          <a rel="noreferrer" 
-            onClick={getSalesDetailHandler}
-            >
+          <button rel="noreferrer" onClick={getSalesDetailHandler}
+            disabled={isSubmitting}
+          >
             Get Sales Detail
-          </a>
+          </button>
         </div>
         <div className="action">
-          <a rel="noreferrer" 
-            onClick={submitStockDetailHandler}
-            >
+          <button rel="noreferrer" onClick={submitStockDetailHandler}
+            disabled={isSubmitting}
+          >
             Upload Stock Detail
-          </a>
+          </button>
         </div>
       </div>
 
