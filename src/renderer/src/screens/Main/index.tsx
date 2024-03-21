@@ -1,22 +1,20 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-// import SalesDetail from '../../components/SalesDetail'
-// import Versions from '../../components/Versions'
 
 const MainScreen = (): JSX.Element => {
   const [ isSubmitting, setIsSubmitting ] = useState(false)
   const [ statusMessage, setStatusMessage ] = useState('')
 
-  const submitSalesDetailHandler = (): void => {
-    setIsSubmitting(true)
-    setStatusMessage(`submitting sales detail ... `)
-    window.electron.ipcRenderer.send('submit-sales-detail')
-  } 
   // const getSalesDetailHandler = (): void => {
   //   setIsSubmitting(true)
   //   setStatusMessage(`getting sales detail ... `)
   //   window.electron.ipcRenderer.send('get-sales-detail')
   // }
+  const submitSalesDetailHandler = (): void => {
+    setIsSubmitting(true)
+    setStatusMessage(`submitting sales detail ... `)
+    window.electron.ipcRenderer.send('submit-sales-detail')
+  } 
   const submitStockDetailHandler = (): void => {
     setIsSubmitting(true)
     setStatusMessage(`submitting stock detail ... `)
@@ -53,8 +51,6 @@ const MainScreen = (): JSX.Element => {
   
   return (
     <>
-      {/* <img alt="logo" className="logo" src={electronLogo} /> */}
-      {/* <div className="creator">Powered by electron-vite</div> */}
       <h2>
         Custom Extension <span className="react">TokoPro</span>
         &nbsp;for <span className="ts">Michelin</span>
@@ -98,10 +94,6 @@ const MainScreen = (): JSX.Element => {
       </div>
 
       <div id="data-container"></div>
-
-      {/* <SalesDetail /> */}
-
-      {/* <Versions></Versions> */}
     </>
   )
 }
