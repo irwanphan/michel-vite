@@ -39,17 +39,28 @@ const MainScreen = (): JSX.Element => {
     <>
       {/* <img alt="logo" className="logo" src={electronLogo} /> */}
       {/* <div className="creator">Powered by electron-vite</div> */}
-      <div className="text">
+      <h2>
         Custom Extension <span className="react">TokoPro</span>
         &nbsp;for <span className="ts">Michelin</span>
-      </div>
+      </h2>
       <p className="tip">
         { statusMessage }
       </p>
 
-      <button onClick={() => navigate('config')}>
-        Go to Config
-      </button>
+      <div className="actions">
+        <div className="action">
+          <button onClick={() => navigate('config')}>
+            Go to Config
+          </button>
+        </div>
+        <div className="action">
+          <button rel="noreferrer" onClick={getSalesDetailHandler}
+            disabled={isSubmitting}
+          >
+            Get Sales Detail
+          </button>
+        </div>
+      </div>
 
       <div className="actions">
         
@@ -60,13 +71,7 @@ const MainScreen = (): JSX.Element => {
             Upload Sales Detail
           </button>
         </div>
-        <div className="action">
-          <button rel="noreferrer" onClick={getSalesDetailHandler}
-            disabled={isSubmitting}
-          >
-            Get Sales Detail
-          </button>
-        </div>
+        
         <div className="action">
           <button rel="noreferrer" onClick={submitStockDetailHandler}
             disabled={isSubmitting}
