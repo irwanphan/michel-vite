@@ -57,8 +57,11 @@ const ConfigScreen = () => {
   }
 
   return (
-    <div className={styles.container}>
-      <h2>Config! ⚙️</h2>
+    <>
+      <h2>
+        <span className="react">TokoPro</span> Custom Extension
+      </h2>
+      <h3>Config! ⚙️</h3>
 
       <label className={styles.label}>
         Database Host: 
@@ -104,7 +107,7 @@ const ConfigScreen = () => {
         <button onClick={() => navigate('/')}>Cancel</button>
         <button onClick={handleSave}>Save</button>
       </div>
-    </div>
+    </>
   )
 }
 
