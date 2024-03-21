@@ -63,7 +63,7 @@ const ConfigScreen = () => {
 
       <label className={styles.label}>
         Database Host: 
-        <input className={styles.input} type="text" id="dbHost" placeholder="localhost" 
+        <input className={styles.input} type="text" id="dbHost" placeholder="127.0.0.1" 
           onChange={handleChange}
           value={formData.dbHost}
       />

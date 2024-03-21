@@ -90,7 +90,7 @@ app.whenReady().then(() => {
         headers: headers,
       })
       const jsonBody = await response.json();
-      const lastSalesUpdate = new Date().toISOString();
+      const lastSalesUpdate = new Date().toLocaleString("id-ID");
 
       const reply = {
         response: jsonBody,
@@ -120,7 +120,7 @@ app.whenReady().then(() => {
         headers: headers,
       })
       const jsonBody = await response.json();
-      const lastStockUpdate = new Date().toISOString();
+      const lastStockUpdate = new Date().toLocaleString('id-ID');
 
       const reply = {
         response: jsonBody,

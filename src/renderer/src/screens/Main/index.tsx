@@ -71,7 +71,9 @@ const MainScreen = (): JSX.Element => {
 
       <div className="actions">
         <div className="action">
-          <button onClick={() => navigate('config')}>
+          <button onClick={() => navigate('config')}
+            disabled={isSubmitting}
+          >
             Go to Config
           </button>
         </div>
