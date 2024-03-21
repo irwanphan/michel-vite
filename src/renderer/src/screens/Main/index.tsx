@@ -34,6 +34,12 @@ const MainScreen = (): JSX.Element => {
   useEffect(() => {
     setStatusMessage('initial load ... OK')
   }, [])
+  useEffect(() => {
+    if (!isSubmitting) {
+      window.electron.ipcRenderer.removeAllListeners('get-sales-detail-reply')
+      window.electron.ipcRenderer.removeAllListeners('submit-sales-detail-reply')
+    }
+  }, [isSubmitting])
   
   return (
     <>

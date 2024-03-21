@@ -5,8 +5,10 @@ import icon from '../../resources/icon.png?asset'
 import { getTokoproSalesDetail } from './api/getTokoproSalesDetail'
 import { getTokoproStockDetail } from './api/getTokoproStockDetail'
 import { getSalesDetailUrl, headers, submitSalesDetailUrl, submitStockDetailUrl } from './helpers/endpoints'
+import ElectronStore from 'electron-store'
 
 let mainWindow: any
+const store = new ElectronStore()
 
 function createWindow(): void {
   // Create the browser window.
@@ -72,6 +74,8 @@ app.whenReady().then(() => {
   
     } catch (error) {
       throw error;
+    } finally {
+      ipcMain.removeAllListeners('get-sales-detail-reply');
     }
   })
   
@@ -88,16 +92,21 @@ app.whenReady().then(() => {
         headers: headers,
       })
       const jsonBody = await response.json();
+      const lastUpdate = new Date().toISOString();
 
       const reply = {
         response: jsonBody,
         status: response.status,
         statusText: response.statusText
       }
+      store.set('lastUpdate', lastUpdate);
+
       event.reply('submit-sales-detail-reply', reply);
 
     } catch (error) {
       throw error;
+    } finally {
+      ipcMain.removeAllListeners('submit-sales-detail-reply');
     }
   })
 
@@ -121,6 +130,20 @@ app.whenReady().then(() => {
     } catch (error) {
       throw error;
       // throw new Error('Error fetching stock data');
+    }
+  })
+
+  ipcMain.on('save-config', async (_event, arg) => {
+    store.set('config', arg);
+  })
+  ipcMain.on('get-config', async (event) => {
+    try {
+      const reply = store.get('config');
+      event.reply('get-config-reply', reply);
+    } catch (error) {
+      throw error;
+    } finally {
+      ipcMain.removeAllListeners('get-config-reply');
     }
   })
 

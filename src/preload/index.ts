@@ -1,9 +1,11 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import ElectronStore from 'electron-store'
+const store = new ElectronStore()
 
 // Custom APIs for renderer
 const api = {
-  setData: (data: any) => ipcRenderer.send('set-data', data)
+  
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
@@ -22,3 +24,7 @@ if (process.contextIsolated) {
   // @ts-ignore (define in dts)
   window.api = api
 }
+
+store.onDidChange('config', (newValue) => {
+  ipcRenderer.sendToHost('config-changed', newValue)
+})
