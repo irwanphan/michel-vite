@@ -5,8 +5,10 @@ import icon from '../../resources/icon.png?asset'
 import { getTokoproSalesDetail } from './api/getTokoproSalesDetail'
 import { getTokoproStockDetail } from './api/getTokoproStockDetail'
 import { getSalesDetailUrl, headers, submitSalesDetailUrl, submitStockDetailUrl } from './helpers/endpoints'
+import ElectronStore from 'electron-store'
 
 let mainWindow: any
+const store = new ElectronStore()
 
 function createWindow(): void {
   // Create the browser window.
@@ -88,12 +90,15 @@ app.whenReady().then(() => {
         headers: headers,
       })
       const jsonBody = await response.json();
+      const lastSalesUpdate = new Date().toLocaleString("id-ID");
 
       const reply = {
         response: jsonBody,
         status: response.status,
         statusText: response.statusText
       }
+      store.set('lastSalesUpdate', lastSalesUpdate);
+
       event.reply('submit-sales-detail-reply', reply);
 
     } catch (error) {
@@ -102,7 +107,7 @@ app.whenReady().then(() => {
   })
 
   // IPC Submit Stock Detail
-  ipcMain.on('submit-stock-detail', async () => {
+  ipcMain.on('submit-stock-detail', async (event) => {
     try {
       const stockDetail = await getTokoproStockDetail();
       console.log('stockDetail', stockDetail);
@@ -115,12 +120,45 @@ app.whenReady().then(() => {
         headers: headers,
       })
       const jsonBody = await response.json();
-      console.log('response', jsonBody);
-      
+      const lastStockUpdate = new Date().toLocaleString('id-ID');
 
+      const reply = {
+        response: jsonBody,
+        status: response.status,
+        statusText: response.statusText
+      }
+      store.set('lastStockUpdate', lastStockUpdate);
+
+      event.reply('submit-stock-detail-reply', reply);
     } catch (error) {
       throw error;
       // throw new Error('Error fetching stock data');
+    }
+  })
+
+  ipcMain.on('save-config', async (_event, arg) => {
+    store.set('config', arg);
+  })
+  ipcMain.on('get-config', async (event) => {
+    try {
+      const reply = store.get('config');
+      event.reply('get-config-reply', reply);
+    } catch (error) {
+      throw error;
+    } 
+  })
+
+  ipcMain.on('get-last-updates', async (event) => {
+    try {
+      const lastSalesUpdate = store.get('lastSalesUpdate');
+      const lastStockUpdate = store.get('lastStockUpdate');
+      const reply = {
+        lastSalesUpdate,
+        lastStockUpdate
+      }
+      event.reply('get-last-updates-reply', reply);
+    } catch (error) {
+      throw error;
     }
   })
 
