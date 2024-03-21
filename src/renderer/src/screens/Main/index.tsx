@@ -12,32 +12,42 @@ const MainScreen = (): JSX.Element => {
     setStatusMessage(`submitting sales detail ... `)
     window.electron.ipcRenderer.send('submit-sales-detail')
   } 
-  const getSalesDetailHandler = (): void => {
+  // const getSalesDetailHandler = (): void => {
+  //   setIsSubmitting(true)
+  //   setStatusMessage(`getting sales detail ... `)
+  //   window.electron.ipcRenderer.send('get-sales-detail')
+  // }
+  const submitStockDetailHandler = (): void => {
     setIsSubmitting(true)
-    setStatusMessage(`getting sales detail ... `)
-    window.electron.ipcRenderer.send('get-sales-detail')
+    setStatusMessage(`submitting stock detail ... `)
+    window.electron.ipcRenderer.send('submit-stock-detail')
   }
-  const submitStockDetailHandler = (): void => window.electron.ipcRenderer.send('submit-stock-detail')
 
   const navigate = useNavigate()
 
-  window.electron.ipcRenderer.on('get-sales-detail-reply', (_event, arg) => {
-    setIsSubmitting(false)
-    console.log('get-sales-detail-reply', arg);
-    setStatusMessage(`getting sales detail ... ${arg.statusText}`)
-  });
+  // window.electron.ipcRenderer.on('get-sales-detail-reply', (_event, arg) => {
+  //   setIsSubmitting(false)
+  //   console.log('get-sales-detail-reply', arg);
+  //   setStatusMessage(`getting sales detail ... ${arg.statusText}`)
+  // });
   window.electron.ipcRenderer.on('submit-sales-detail-reply', (_event, arg) => {
     setIsSubmitting(false)
     console.log('submitted: ', arg.statusText);
     setStatusMessage(`submitting sales detail ... ${arg.statusText}`)
   });
+  window.electron.ipcRenderer.on('submit-stock-detail-reply', (_event, arg) => {
+    setIsSubmitting(false)
+    console.log('submitted: ', arg.statusText);
+    setStatusMessage(`submitting stock detail ... ${arg.statusText}`)
+  });
   useEffect(() => {
-    setStatusMessage('initial load ... OK')
+    setStatusMessage('Initial load ... OK')
   }, [])
   useEffect(() => {
     if (!isSubmitting) {
-      window.electron.ipcRenderer.removeAllListeners('get-sales-detail-reply')
+      // window.electron.ipcRenderer.removeAllListeners('get-sales-detail-reply')
       window.electron.ipcRenderer.removeAllListeners('submit-sales-detail-reply')
+      window.electron.ipcRenderer.removeAllListeners('submit-stock-detail-reply')
     }
   }, [isSubmitting])
   
@@ -59,13 +69,13 @@ const MainScreen = (): JSX.Element => {
             Go to Config
           </button>
         </div>
-        <div className="action">
+        {/* <div className="action">
           <button rel="noreferrer" onClick={getSalesDetailHandler}
             disabled={isSubmitting}
           >
             Get Sales Detail
           </button>
-        </div>
+        </div> */}
       </div>
 
       <div className="actions">

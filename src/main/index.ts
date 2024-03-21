@@ -74,8 +74,6 @@ app.whenReady().then(() => {
   
     } catch (error) {
       throw error;
-    } finally {
-      ipcMain.removeAllListeners('get-sales-detail-reply');
     }
   })
   
@@ -92,26 +90,24 @@ app.whenReady().then(() => {
         headers: headers,
       })
       const jsonBody = await response.json();
-      const lastUpdate = new Date().toISOString();
+      const lastSalesUpdate = new Date().toISOString();
 
       const reply = {
         response: jsonBody,
         status: response.status,
         statusText: response.statusText
       }
-      store.set('lastUpdate', lastUpdate);
+      store.set('lastSalesUpdate', lastSalesUpdate);
 
       event.reply('submit-sales-detail-reply', reply);
 
     } catch (error) {
       throw error;
-    } finally {
-      ipcMain.removeAllListeners('submit-sales-detail-reply');
     }
   })
 
   // IPC Submit Stock Detail
-  ipcMain.on('submit-stock-detail', async () => {
+  ipcMain.on('submit-stock-detail', async (event) => {
     try {
       const stockDetail = await getTokoproStockDetail();
       console.log('stockDetail', stockDetail);
@@ -124,9 +120,16 @@ app.whenReady().then(() => {
         headers: headers,
       })
       const jsonBody = await response.json();
-      console.log('response', jsonBody);
-      
+      const lastStockUpdate = new Date().toISOString();
 
+      const reply = {
+        response: jsonBody,
+        status: response.status,
+        statusText: response.statusText
+      }
+      store.set('lastStockUpdate', lastStockUpdate);
+
+      event.reply('submit-stock-detail-reply', reply);
     } catch (error) {
       throw error;
       // throw new Error('Error fetching stock data');
@@ -142,9 +145,7 @@ app.whenReady().then(() => {
       event.reply('get-config-reply', reply);
     } catch (error) {
       throw error;
-    } finally {
-      ipcMain.removeAllListeners('get-config-reply');
-    }
+    } 
   })
 
   createWindow()
