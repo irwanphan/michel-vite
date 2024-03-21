@@ -63,9 +63,15 @@ app.whenReady().then(() => {
         headers: headers
       })
       const jsonBody = await salesDetail.json();
-      console.log('jsonBody', jsonBody);
+      const status = {
+        status: salesDetail.status,
+        statusText: salesDetail.statusText
+      }
+      console.log('status', status);
+      // console.log('jsonBody', jsonBody);
       // ipcMain.emit('sales-detail-emitted', jsonBody);
-      event.reply('reply-sales-detail', jsonBody);
+      event.reply('get-sales-detail-reply', jsonBody);
+      event.reply('get-sales-detail-status', status);
   
     } catch (error) {
       throw error;

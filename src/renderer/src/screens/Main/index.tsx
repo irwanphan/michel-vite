@@ -10,16 +10,18 @@ const MainScreen = (): JSX.Element => {
   // const [ isLoading, setIsLoading ] = useState(true)
 
   const submitSalesDetailHandler = (): void => window.electron.ipcRenderer.send('submit-sales-detail')
-  // const getSalesDetailHandler = (): void => window.electron.ipcRenderer.send('get-sales-detail')
+  const getSalesDetailHandler = (): void => window.electron.ipcRenderer.send('get-sales-detail')
   const submitStockDetailHandler = (): void => window.electron.ipcRenderer.send('submit-stock-detail')
 
   const navigate = useNavigate()
 
-  // window.electron.ipcRenderer.on('reply-sales-detail', (event, arg) => {
-  //   console.log('reply-sales-detail', arg);
-  //   setSalesDetail(arg);
-  // });
-
+  window.electron.ipcRenderer.on('get-sales-detail-reply', (_event, arg) => {
+    console.log('get-sales-detail-reply', arg);
+    // setSalesDetail(arg);
+  });
+  window.electron.ipcRenderer.on('get-sales-detail-status', (_event, arg) => {
+    console.log('get-sales-detail-status', arg);
+  });
   // useEffect(() => {
 
   // }, [salesDetail])
@@ -49,13 +51,13 @@ const MainScreen = (): JSX.Element => {
             Upload Sales Detail
           </a>
         </div>
-        {/* <div className="action">
+        <div className="action">
           <a rel="noreferrer" 
             onClick={getSalesDetailHandler}
             >
             Get Sales Detail
           </a>
-        </div> */}
+        </div>
         <div className="action">
           <a rel="noreferrer" 
             onClick={submitStockDetailHandler}
