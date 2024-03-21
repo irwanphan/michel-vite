@@ -38,7 +38,6 @@ const ConfigScreen = () => {
 
   window.electron.ipcRenderer.on('get-config-reply', (_event, arg) => {
     setIsLoading(false)
-    console.log('get-config-reply', arg);
     setFormData(arg)
   });
 

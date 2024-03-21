@@ -14,9 +14,10 @@ function createWindow(): void {
   // Create the browser window.
   // const mainWindow = new BrowserWindow({
   mainWindow = new BrowserWindow({
-    width: 800,
+    width: 540,
     height: 670,
     show: false,
+    resizable: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
@@ -110,10 +111,9 @@ app.whenReady().then(() => {
   ipcMain.on('submit-stock-detail', async (event) => {
     try {
       const stockDetail = await getTokoproStockDetail();
-      console.log('stockDetail', stockDetail);
+      // console.log('stockDetail', stockDetail);
 
       // Send HTTP PUT request
-      // console.log('submitStockDetailUrl', submitStockDetailUrl);
       const response = await fetch(submitStockDetailUrl, {
         method: 'PUT',
         body: JSON.stringify(stockDetail),
@@ -132,7 +132,6 @@ app.whenReady().then(() => {
       event.reply('submit-stock-detail-reply', reply);
     } catch (error) {
       throw error;
-      // throw new Error('Error fetching stock data');
     }
   })
 

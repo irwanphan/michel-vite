@@ -31,16 +31,16 @@ const MainScreen = (): JSX.Element => {
   // });
   window.electron.ipcRenderer.on('submit-sales-detail-reply', (_event, arg) => {
     setIsSubmitting(false)
-    console.log('submitted: ', arg.statusText);
+    // console.log('submitted: ', arg.statusText);
     setStatusMessage(`submitting sales detail ... ${arg.statusText}`)
   });
   window.electron.ipcRenderer.on('submit-stock-detail-reply', (_event, arg) => {
     setIsSubmitting(false)
-    console.log('submitted: ', arg.statusText);
+    // console.log('submitted: ', arg.statusText);
     setStatusMessage(`submitting stock detail ... ${arg.statusText}`)
   });
   window.electron.ipcRenderer.on('get-last-updates-reply', (_event, arg) => {
-    console.log('get-last-updates-reply', arg);
+    // console.log('get-last-updates-reply', arg);
     setLastUpdates(arg)
   })
   useEffect(() => {
@@ -62,8 +62,7 @@ const MainScreen = (): JSX.Element => {
   return (
     <>
       <h2>
-        Custom Extension <span className="react">TokoPro</span>
-        &nbsp;for <span className="ts">Michelin</span>
+        <span className="react">TokoPro</span> Custom Extension
       </h2>
       <p className="tip">
         { statusMessage }
