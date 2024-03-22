@@ -96,7 +96,8 @@ app.whenReady().then(() => {
       const reply = {
         response: jsonBody,
         status: response.status,
-        statusText: response.statusText
+        statusText: response.statusText,
+        lastSalesUpdate: lastSalesUpdate
       }
       store.set('lastSalesUpdate', lastSalesUpdate);
 
@@ -125,7 +126,8 @@ app.whenReady().then(() => {
       const reply = {
         response: jsonBody,
         status: response.status,
-        statusText: response.statusText
+        statusText: response.statusText,
+        lastStockUpdate: lastStockUpdate
       }
       store.set('lastStockUpdate', lastStockUpdate);
 
