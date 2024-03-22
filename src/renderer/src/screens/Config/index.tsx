@@ -34,10 +34,10 @@ const ConfigScreen = () => {
   }, [])
   useEffect(() => {
     window.electron.ipcRenderer.removeAllListeners('get-config-reply')
+    setIsLoading(false)
   }, [formData])
 
   window.electron.ipcRenderer.on('get-config-reply', (_event, arg) => {
-    setIsLoading(false)
     setFormData(arg)
   });
 

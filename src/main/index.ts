@@ -6,6 +6,7 @@ import { getTokoproSalesDetail } from './api/getTokoproSalesDetail'
 import { getTokoproStockDetail } from './api/getTokoproStockDetail'
 import { getSalesDetailUrl, headers, submitSalesDetailUrl, submitStockDetailUrl } from './helpers/endpoints'
 import ElectronStore from 'electron-store'
+// import { databaseConfig } from './connection'
 
 const store = new ElectronStore()
 
@@ -168,6 +169,7 @@ app.whenReady().then(() => {
   createWindow()
   
   console.log('app is ready')
+  // console.log('databaseConfig', databaseConfig)
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
