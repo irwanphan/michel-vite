@@ -79,7 +79,7 @@ app.whenReady().then(() => {
   })
   
   // IPC Submit Sales Detail
-  ipcMain.on('submit-sales-detail', async (event) => {
+  ipcMain.handle('submit-sales-detail', async (event) => {
     try {
       console.log('processing request ...')
       const salesDetail = await getTokoproSalesDetail();
@@ -103,14 +103,15 @@ app.whenReady().then(() => {
       store.set('lastSalesUpdate', lastSalesUpdate);
       console.log('done')
 
-      event.reply('submit-sales-detail-reply', reply);
-    } catch (error) {
-      throw error;
+      // event.reply('submit-sales-detail-reply', reply);
+      return reply;
+    } catch (error: any) {
+      throw (`Error submitting: ${error.message}`);
     }
   })
 
   // IPC Submit Stock Detail
-  ipcMain.on('submit-stock-detail', async (event) => {
+  ipcMain.handle('submit-stock-detail', async (_event) => {
     try {
       console.log('processing request ...')
       const stockDetail = await getTokoproStockDetail();
@@ -134,9 +135,10 @@ app.whenReady().then(() => {
       store.set('lastStockUpdate', lastStockUpdate);
       console.log('done')
 
-      event.reply('submit-stock-detail-reply', reply);
-    } catch (error) {
-      throw error;
+      // event.reply('submit-stock-detail-reply', reply);
+      return reply;
+    } catch (error:any) {
+      throw (`Error submitting: ${error.message}`);
     }
   })
 

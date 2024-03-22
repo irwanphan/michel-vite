@@ -11,15 +11,43 @@ const MainScreen = (): JSX.Element => {
   //   setStatusMessage(`getting sales detail ... `)
   //   window.electron.ipcRenderer.send('get-sales-detail')
   // }
-  const submitSalesDetailHandler = (): void => {
-    setIsSubmitting(true)
-    setStatusMessage(`submitting sales detail ... `)
-    window.electron.ipcRenderer.send('submit-sales-detail')
+  const submitSalesDetailHandler = async () => {
+    try {
+      setIsSubmitting(true)
+      setStatusMessage(`submitting sales detail ... `)
+      await window.electron.ipcRenderer.invoke('submit-sales-detail')
+        .then((res) => {
+          setStatusMessage(`submitting sales detail ... ${res.statusText}`)
+          setLastUpdates({
+            ...lastUpdates,
+            lastSalesUpdate: res.lastSalesUpdate
+          })
+        })
+    } catch (error: any) {
+      console.error(error)
+      setStatusMessage(`submitting sales detail ... ${error.message}`)
+    } finally {
+      setIsSubmitting(false)
+    }
   } 
-  const submitStockDetailHandler = (): void => {
-    setIsSubmitting(true)
-    setStatusMessage(`submitting stock detail ... `)
-    window.electron.ipcRenderer.send('submit-stock-detail')
+  const submitStockDetailHandler = async () => {
+    try {
+      setIsSubmitting(true)
+      setStatusMessage(`submitting stock detail ... `)
+      await window.electron.ipcRenderer.invoke('submit-stock-detail')
+        .then((res) => {
+          setStatusMessage(`submitting stock detail ... ${res.statusText}`)
+          setLastUpdates({
+            ...lastUpdates,
+            lastStockUpdate: res.lastStockUpdate
+          })
+        })
+    } catch (error: any) {
+      console.error(error)
+      setStatusMessage(`submitting stock detail ... ${error.message}`)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const navigate = useNavigate()
@@ -29,24 +57,7 @@ const MainScreen = (): JSX.Element => {
   //   console.log('get-sales-detail-reply', arg);
   //   setStatusMessage(`getting sales detail ... ${arg.statusText}`)
   // });
-  window.electron.ipcRenderer.on('submit-sales-detail-reply', (_event, arg) => {
-    setIsSubmitting(false)
-    // console.log('submitted: ', arg.statusText);
-    setLastUpdates({
-      ...lastUpdates,
-      lastSalesUpdate: arg.lastSalesUpdate
-    })
-    setStatusMessage(`submitting sales detail ... ${arg.statusText}`)
-  });
-  window.electron.ipcRenderer.on('submit-stock-detail-reply', (_event, arg) => {
-    setIsSubmitting(false)
-    // console.log('submitted: ', arg.statusText);
-    setLastUpdates({
-      ...lastUpdates,
-      lastStockUpdate: arg.lastStockUpdate
-    })
-    setStatusMessage(`submitting stock detail ... ${arg.statusText}`)
-  });
+
   window.electron.ipcRenderer.on('get-last-updates-reply', (_event, arg) => {
     // console.log('get-last-updates-reply', arg);
     setLastUpdates(arg)
@@ -55,6 +66,7 @@ const MainScreen = (): JSX.Element => {
     setStatusMessage('Initial load ... OK')
     window.electron.ipcRenderer.send('get-last-updates')
   }, [])
+  
   useEffect(() => {
     if (!isSubmitting) {
       // window.electron.ipcRenderer.removeAllListeners('get-sales-detail-reply')
