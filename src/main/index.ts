@@ -81,6 +81,7 @@ app.whenReady().then(() => {
   // IPC Submit Sales Detail
   ipcMain.on('submit-sales-detail', async (event) => {
     try {
+      console.log('processing request ...')
       const salesDetail = await getTokoproSalesDetail();
       // console.log('salesDetail', salesDetail);
 
@@ -100,9 +101,9 @@ app.whenReady().then(() => {
         lastSalesUpdate: lastSalesUpdate
       }
       store.set('lastSalesUpdate', lastSalesUpdate);
+      console.log('done')
 
       event.reply('submit-sales-detail-reply', reply);
-
     } catch (error) {
       throw error;
     }
@@ -111,6 +112,7 @@ app.whenReady().then(() => {
   // IPC Submit Stock Detail
   ipcMain.on('submit-stock-detail', async (event) => {
     try {
+      console.log('processing request ...')
       const stockDetail = await getTokoproStockDetail();
       // console.log('stockDetail', stockDetail);
 
@@ -130,6 +132,7 @@ app.whenReady().then(() => {
         lastStockUpdate: lastStockUpdate
       }
       store.set('lastStockUpdate', lastStockUpdate);
+      console.log('done')
 
       event.reply('submit-stock-detail-reply', reply);
     } catch (error) {
