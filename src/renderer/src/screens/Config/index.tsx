@@ -49,7 +49,7 @@ const ConfigScreen = () => {
   }
   const handleSave = () => {
     window.electron.ipcRenderer.send('save-config', formData)
-    // navigate('/')
+    navigate('/')
   }
 
   if (isLoading) {
