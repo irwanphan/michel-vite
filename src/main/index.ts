@@ -79,7 +79,7 @@ app.whenReady().then(() => {
   })
   
   // IPC Submit Sales Detail
-  ipcMain.handle('submit-sales-detail', async (event) => {
+  ipcMain.handle('submit-sales-detail', async (_event) => {
     try {
       console.log('processing request ...')
       const salesDetail = await getTokoproSalesDetail();
