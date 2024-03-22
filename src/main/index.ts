@@ -7,13 +7,11 @@ import { getTokoproStockDetail } from './api/getTokoproStockDetail'
 import { getSalesDetailUrl, headers, submitSalesDetailUrl, submitStockDetailUrl } from './helpers/endpoints'
 import ElectronStore from 'electron-store'
 
-let mainWindow: any
 const store = new ElectronStore()
 
 function createWindow(): void {
   // Create the browser window.
-  // const mainWindow = new BrowserWindow({
-  mainWindow = new BrowserWindow({
+  const mainWindow = new BrowserWindow({
     width: 480,
     height: 640,
     show: false,
@@ -167,6 +165,8 @@ app.whenReady().then(() => {
   })
 
   createWindow()
+  
+  console.log('app is ready')
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

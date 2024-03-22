@@ -1,9 +1,9 @@
 {
   "name": "michel",
   "version": "1.0.0",
-  "description": "An Electron application with React and TypeScript",
-  "main": "./out/main/index.js",
-  "author": "example.com",
+  "description": "Tokopro Extension for Michelin Sales Update",
+  "main": "./dist/main/index.js",
+  "author": "canggihsoftware.com",
   "homepage": "https://electron-vite.org",
   "scripts": {
     "format": "prettier --write .",
@@ -11,17 +11,17 @@
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
     "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
     "typecheck": "npm run typecheck:node && npm run typecheck:web",
-    "preview": "electron-vite preview",
-    "dev": "electron-vite dev",
+    "preview": "electron-vite preview --outDir=dist",
+    "dev": "electron-vite dev --outDir=dist",
     "build": "npm run typecheck && electron-vite build",
     "postinstall": "electron-builder install-app-deps",
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "electron-vite build && electron-builder --mac",
     "build:linux": "electron-vite build && electron-builder --linux",
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
+    "start": "electron-vite build --outDir=dist && electron-forge start",
+    "package": "electron-vite build --outDir=dist && electron-forge package",
+    "make": "electron-vite build --outDir=dist && electron-forge make"
   },
   "dependencies": {
     "@electron-forge/plugin-fuses": "^7.3.0",
