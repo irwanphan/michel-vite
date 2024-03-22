@@ -28,6 +28,7 @@ const MainScreen = (): JSX.Element => {
       setStatusMessage(`submitting sales detail ... ${error.message}`)
     } finally {
       setIsSubmitting(false)
+      window.electron.ipcRenderer.removeAllListeners('submit-sales-detail-reply')
     }
   } 
   const submitStockDetailHandler = async () => {
@@ -47,6 +48,7 @@ const MainScreen = (): JSX.Element => {
       setStatusMessage(`submitting stock detail ... ${error.message}`)
     } finally {
       setIsSubmitting(false)
+      window.electron.ipcRenderer.removeAllListeners('submit-stock-detail-reply')
     }
   }
 
@@ -58,26 +60,17 @@ const MainScreen = (): JSX.Element => {
   //   setStatusMessage(`getting sales detail ... ${arg.statusText}`)
   // });
 
-  window.electron.ipcRenderer.on('get-last-updates-reply', (_event, arg) => {
-    // console.log('get-last-updates-reply', arg);
-    setLastUpdates(arg)
-  })
+  const getLastUpdates = async () => {
+    await window.electron.ipcRenderer.invoke('get-last-updates')
+      .then((res) => { setLastUpdates(res) })
+      .catch((error) => { console.error(error) })
+      .finally(() => { window.electron.ipcRenderer.send('get-last-updates') })
+  }
+
   useEffect(() => {
     setStatusMessage('Initial load ... OK')
-    window.electron.ipcRenderer.send('get-last-updates')
+    getLastUpdates()
   }, [])
-  
-  useEffect(() => {
-    if (!isSubmitting) {
-      // window.electron.ipcRenderer.removeAllListeners('get-sales-detail-reply')
-      window.electron.ipcRenderer.removeAllListeners('get-last-updates-reply')
-      window.electron.ipcRenderer.removeAllListeners('submit-sales-detail-reply')
-      window.electron.ipcRenderer.send('get-last-updates')
-    }
-  }, [isSubmitting])
-  useEffect(() => {
-    window.electron.ipcRenderer.removeAllListeners('submit-stock-detail-reply')
-  }, [lastUpdates])
   
   return (
     <>

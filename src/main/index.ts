@@ -154,7 +154,7 @@ app.whenReady().then(() => {
     } 
   })
 
-  ipcMain.on('get-last-updates', async (event) => {
+  ipcMain.handle('get-last-updates', async (_event) => {
     try {
       const lastSalesUpdate = store.get('lastSalesUpdate');
       const lastStockUpdate = store.get('lastStockUpdate');
@@ -162,9 +162,10 @@ app.whenReady().then(() => {
         lastSalesUpdate,
         lastStockUpdate
       }
-      event.reply('get-last-updates-reply', reply);
-    } catch (error) {
-      throw error;
+      // event.reply('get-last-updates-reply', reply);
+      return reply;
+    } catch (error:any) {
+      throw (`Error fetch: ${error.message}`);
     }
   })
 
