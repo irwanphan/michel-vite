@@ -177,7 +177,6 @@ app.whenReady().then(() => {
   createWindow()
   
   console.log('app is ready')
-  // console.log('databaseConfig', databaseConfig)
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

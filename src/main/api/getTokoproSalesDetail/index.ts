@@ -1,7 +1,7 @@
 // import { pool } from '../../connection'
 import ElectronStore from 'electron-store'
 import { createPool, Pool } from 'mysql2/promise'
-import { ConfigType, pool } from '../../connection';
+import { ConfigType } from '../../connection';
 
 const store = new ElectronStore()
 const config = store.get('config') as ConfigType
@@ -28,8 +28,9 @@ const sqlQuerySalesDetail = `
 
 export const getTokoproSalesDetail = async () => {
     let connection;
+    let pool: Pool;
     try {
-        const pool: Pool = createPool({ 
+        pool= createPool({ 
             host: config.dbHost,
             port: parseInt(config.dbPort || '3307'),
             user: config.dbUsername,
@@ -43,9 +44,7 @@ export const getTokoproSalesDetail = async () => {
     } catch (error) {
         throw error;
     } finally {
-        if (connection) {
-            await connection.release();
-        }
-        await pool.end();
+        if (connection) { await connection.release(); }
+        await pool!.end();
     }
 }

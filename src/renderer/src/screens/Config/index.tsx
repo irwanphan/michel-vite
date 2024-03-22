@@ -24,7 +24,7 @@ const ConfigScreen = () => {
 
   const fetchConfig = async () => {
     await window.electron.ipcRenderer.invoke('get-config')
-      .then((res) => { setFormData(res) })
+      .then((res) => { if (res) setFormData(res) })
       .catch((error) => { console.error(error) })
       .finally(() => { 
         setIsLoading(false) 
