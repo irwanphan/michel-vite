@@ -32,11 +32,19 @@ const MainScreen = (): JSX.Element => {
   window.electron.ipcRenderer.on('submit-sales-detail-reply', (_event, arg) => {
     setIsSubmitting(false)
     // console.log('submitted: ', arg.statusText);
+    setLastUpdates({
+      ...lastUpdates,
+      lastSalesUpdate: arg.lastSalesUpdate
+    })
     setStatusMessage(`submitting sales detail ... ${arg.statusText}`)
   });
   window.electron.ipcRenderer.on('submit-stock-detail-reply', (_event, arg) => {
     setIsSubmitting(false)
     // console.log('submitted: ', arg.statusText);
+    setLastUpdates({
+      ...lastUpdates,
+      lastStockUpdate: arg.lastStockUpdate
+    })
     setStatusMessage(`submitting stock detail ... ${arg.statusText}`)
   });
   window.electron.ipcRenderer.on('get-last-updates-reply', (_event, arg) => {
