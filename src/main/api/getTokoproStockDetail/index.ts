@@ -1,13 +1,6 @@
-// import { pool } from '../../connection'
 import ElectronStore from 'electron-store'
 import { createPool, Pool } from 'mysql2/promise'
-import { ConfigType } from '../../connection';
-
-const store = new ElectronStore()
-let config = store.get('config') as ConfigType
-// store.onDidAnyChange(() => {
-//     config = store.get('config') as ConfigType
-// })
+import { ConfigType } from '../../ConfigType';
 
 const sqlQueryStockDetail = `
     SELECT tbbarang.Kode CAI, tbqty.KodeGudang WarehouseCode, tbqty.QtyReady Qty, '' Remarks 
@@ -17,7 +10,9 @@ const sqlQueryStockDetail = `
 `;
 
 export const getTokoproStockDetail = async () => {
-    console.log('config', config);
+    const store = new ElectronStore()
+    let config = store.get('config') as ConfigType
+
     let connection;
     let pool: Pool;
     try {

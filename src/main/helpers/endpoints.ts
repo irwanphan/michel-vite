@@ -1,4 +1,7 @@
 import { formatDate, formatDateFYM, formatDateTime } from "./utils";
+import { config } from "dotenv";
+
+config()
 
 // Encode username and password to base64
 const username = process.env.USER_NAME;
