@@ -2,7 +2,7 @@ import { createPool, Pool } from 'mysql2/promise'
 import ElectronStore from 'electron-store'
 require('dotenv').config()
 
-type ConfigType = {
+export type ConfigType = {
     dbHost: string,
     dbPort: string,
     dbUsername: string,

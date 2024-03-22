@@ -13,6 +13,7 @@ type ConfigType = {
 const ConfigScreen = () => {
   const navigate = useNavigate()
   const [ isLoading, setIsLoading ] = useState(false)
+  const [ isSubmitting, setIsSubmitting ] = useState(false)
   const [ formData, setFormData ] = useState<ConfigType>({
     dbHost: '',
     dbPort: '',
@@ -21,25 +22,19 @@ const ConfigScreen = () => {
     dbName: '',
   })
 
+  const fetchConfig = async () => {
+    await window.electron.ipcRenderer.invoke('get-config')
+      .then((res) => { setFormData(res) })
+      .catch((error) => { console.error(error) })
+      .finally(() => { 
+        setIsLoading(false) 
+        window.electron.ipcRenderer.removeAllListeners('get-config')
+      })
+  }
+
   useEffect(() => {
-    const fetchConfig = async () => {
-      try {
-        setIsLoading(true)
-        window.electron.ipcRenderer.send('get-config')
-      } catch (error) {
-        console.error(error)
-      }
-    }
     fetchConfig()
   }, [])
-  useEffect(() => {
-    window.electron.ipcRenderer.removeAllListeners('get-config-reply')
-    setIsLoading(false)
-  }, [formData])
-
-  window.electron.ipcRenderer.on('get-config-reply', (_event, arg) => {
-    setFormData(arg)
-  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -47,9 +42,14 @@ const ConfigScreen = () => {
       [e.target.id]: e.target.value
     })
   }
-  const handleSave = () => {
-    window.electron.ipcRenderer.send('save-config', formData)
-    navigate('/')
+  const handleSave = async () => {
+    await window.electron.ipcRenderer.invoke('save-config', formData)
+      .then(() => navigate('/'))
+      .catch((error) => { console.error(error) })
+      .finally(() => { 
+        setIsSubmitting(false) 
+        window.electron.ipcRenderer.removeAllListeners('save-config')
+      })
   }
 
   if (isLoading) {
@@ -74,6 +74,7 @@ const ConfigScreen = () => {
       <label>
         Database Port: 
         <input className={styles.input} type="text" id="dbPort" placeholder="3306" 
+          disabled={isSubmitting}
           onChange={handleChange}
           value={formData.dbPort}
       />
@@ -82,6 +83,7 @@ const ConfigScreen = () => {
       <label>
         Database Username: 
         <input className={styles.input} type="text" id="dbUsername" placeholder="root" 
+          disabled={isSubmitting}
           onChange={handleChange}
           value={formData.dbUsername}
       />
@@ -90,6 +92,7 @@ const ConfigScreen = () => {
       <label>
         Database Password: 
         <input className={styles.input} type="password" id="dbPassword" placeholder="password" 
+          disabled={isSubmitting}
           onChange={handleChange}
           value={formData.dbPassword}
       />
@@ -98,14 +101,19 @@ const ConfigScreen = () => {
       <label>
         Database Name: 
         <input className={styles.input} type="text" id="dbName" placeholder="dbCompany" 
+          disabled={isSubmitting}
           onChange={handleChange}
           value={formData.dbName}
       />
       </label>
 
       <div className={styles.buttonGroup}>
-        <button onClick={() => navigate('/')}>Cancel</button>
-        <button onClick={handleSave}>Save</button>
+        <button onClick={() => navigate('/')}
+          disabled={isSubmitting}
+          >Cancel</button>
+        <button onClick={handleSave}
+          disabled={isSubmitting}
+          >Save</button>
       </div>
     </>
   )

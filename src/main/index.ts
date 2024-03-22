@@ -142,15 +142,20 @@ app.whenReady().then(() => {
     }
   })
 
-  ipcMain.on('save-config', async (_event, arg) => {
-    store.set('config', arg);
+  ipcMain.handle('save-config', async (_event, arg) => {
+    try {
+      store.set('config', arg);
+    } catch (error: any) {
+      throw error.message;
+    }
   })
-  ipcMain.on('get-config', async (event) => {
+
+  ipcMain.handle('get-config', async (_event) => {
     try {
       const reply = store.get('config');
-      event.reply('get-config-reply', reply);
-    } catch (error) {
-      throw error;
+      return reply;
+    } catch (error: any) {
+      throw error.message;
     } 
   })
 
