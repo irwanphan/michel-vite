@@ -1,5 +1,5 @@
 {
-  "name": "michel",
+  "name": "tokopro-michel",
   "version": "1.0.0",
   "description": "Tokopro Extension for Michelin Sales Update",
   "main": "./dist/main/index.js",

@@ -1,5 +1,5 @@
 appId: com.tokopro-michel.app
-productName: michel
+productName: Tokopro-Michel
 directories:
   buildResources: build
 files:
@@ -12,7 +12,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: michel
+  executableName: TokoPro-Michel
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
