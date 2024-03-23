@@ -8,6 +8,9 @@ import { getSalesDetailUrl, headers, submitSalesDetailUrl, submitStockDetailUrl 
 import ElectronStore from 'electron-store'
 // import { databaseConfig } from './connection'
 
+// if installing, don't do anything
+if (require('electron-squirrel-startup')) app.quit();
+
 const store = new ElectronStore()
 
 function createWindow(): void {
