@@ -8,6 +8,9 @@ type ConfigType = {
   dbUsername: string,
   dbPassword: string,
   dbName: string,
+  michelinUsername: string,
+  michelinPassword: string,
+  michelinSubcode: string,
 }
 
 const ConfigScreen = () => {
@@ -20,6 +23,9 @@ const ConfigScreen = () => {
     dbUsername: '',
     dbPassword: '',
     dbName: '',
+    michelinUsername: '',
+    michelinPassword: '',
+    michelinSubcode: '',
   })
 
   const fetchConfig = async () => {
@@ -86,7 +92,7 @@ const ConfigScreen = () => {
           disabled={isSubmitting}
           onChange={handleChange}
           value={formData.dbUsername}
-      />
+        />
       </label>
 
       <label>
@@ -95,7 +101,7 @@ const ConfigScreen = () => {
           disabled={isSubmitting}
           onChange={handleChange}
           value={formData.dbPassword}
-      />
+        />
       </label>
 
       <label>
@@ -104,7 +110,36 @@ const ConfigScreen = () => {
           disabled={isSubmitting}
           onChange={handleChange}
           value={formData.dbName}
-      />
+        />
+      </label>
+
+      <hr className={styles.divider} />
+
+      <label>
+        Michelin Username: 
+        <input className={styles.input} type="text" id="michelinUsername" placeholder="username" 
+          disabled={isSubmitting}
+          onChange={handleChange}
+          value={formData.michelinUsername}
+        />
+      </label>
+
+      <label>
+        Michelin Password: 
+        <input className={styles.input} type="password" id="michelinPassword" placeholder="password" 
+          disabled={isSubmitting}
+          onChange={handleChange}
+          value={formData.michelinPassword}
+        />
+      </label>
+
+      <label>
+        Michelin Subcode: 
+        <input className={styles.input} type="text" id="michelinSubcode" placeholder="subcode" 
+          disabled={isSubmitting}
+          onChange={handleChange}
+          value={formData.michelinSubcode}
+        />
       </label>
 
       <div className={styles.buttonGroup}>
