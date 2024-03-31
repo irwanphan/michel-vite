@@ -11,6 +11,7 @@ type ConfigType = {
   michelinUsername: string,
   michelinPassword: string,
   michelinSubcode: string,
+  productionMode: boolean
 }
 
 const ConfigScreen = () => {
@@ -26,6 +27,7 @@ const ConfigScreen = () => {
     michelinUsername: '',
     michelinPassword: '',
     michelinSubcode: '',
+    productionMode: false
   })
 
   const fetchConfig = async () => {
@@ -48,6 +50,13 @@ const ConfigScreen = () => {
       [e.target.id]: e.target.value
     })
   }
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.checked
+    })
+  }
+
   const handleSave = async () => {
     await window.electron.ipcRenderer.invoke('save-config', formData)
       .then(() => navigate('/'))
@@ -141,6 +150,20 @@ const ConfigScreen = () => {
           value={formData.michelinSubcode}
         />
       </label>
+
+      {/* production */}
+      <label>
+        Turn On Production Mode:
+        <input className={styles.inputCheck} type="checkbox" id="productionMode" 
+          disabled={isSubmitting}
+          onChange={handleCheckboxChange}
+          checked={formData.productionMode}
+        />
+      </label>
+
+      <p>
+        <small>⚠️ Upon production mode, data will be send to Michelin. ⚠️</small>
+      </p>
 
       <div className={styles.buttonGroup}>
         <button onClick={() => navigate('/')}
