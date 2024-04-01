@@ -11,6 +11,7 @@ type ConfigType = {
     michelinUsername: string,
     michelinPassword: string,
     michelinSubcode: string,
+    productionMode: boolean
 }
 
 dotenvConfig()
@@ -41,9 +42,10 @@ const urlProduction = "https://redistribution-approach.michelin.com.my/RAS.WebAP
 const urlDevelopment = "http://13.67.56.85:8510/RASUAT.WebAPI";
 
 // change this later
-const isProduction = false;
+// const isProduction = false;
+const productionMode = config.productionMode;
 
-const url = isProduction ? `${urlProduction}` : `${urlDevelopment}`;
+const url = productionMode ? `${urlProduction}` : `${urlDevelopment}`;
 
 export const submitSalesDetailUrl = `${url}/SalesDetail/SubmitSalesDetail?RDBusinessRegNo=${DaytonReg}&RDSubCode=${DaytonSubCode}&TransDate=${date}`;
 export const submitStockDetailUrl = `${url}/Stock/SubmitStockDetail?RDBusinessRegNo=${DaytonReg}&RDFileCode=${DaytonSubCode}&TransDate=${datetime}`;

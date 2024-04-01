@@ -164,6 +164,9 @@ const ConfigScreen = () => {
       <p>
         <small>⚠️ Upon production mode, data will be send to Michelin. ⚠️</small>
       </p>
+      <p>
+        <small>⚠️ Only turn it on if you are sure about sending data. ⚠️</small>
+      </p>
 
       <div className={styles.buttonGroup}>
         <button onClick={() => navigate('/')}
