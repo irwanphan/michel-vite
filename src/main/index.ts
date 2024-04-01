@@ -4,7 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { getTokoproSalesDetail } from './api/getTokoproSalesDetail'
 import { getTokoproStockDetail } from './api/getTokoproStockDetail'
-import { getSalesDetailUrl, headers, submitSalesDetailUrl, submitStockDetailUrl } from './helpers/endpoints'
+import { getConfig } from './helpers/endpoints'
 import ElectronStore from 'electron-store'
 // import { databaseConfig } from './connection'
 
@@ -64,6 +64,7 @@ app.whenReady().then(() => {
   // hit getSalesDetailUrl, send to renderer
   ipcMain.on('get-sales-detail', async (event) => {
     try {
+      const {getSalesDetailUrl, headers} = await getConfig();
       const response = await fetch(getSalesDetailUrl, {
         method: "GET",
         headers: headers
@@ -84,6 +85,7 @@ app.whenReady().then(() => {
   // IPC Submit Sales Detail
   ipcMain.handle('submit-sales-detail', async (_event) => {
     try {
+      const {submitSalesDetailUrl, headers} = await getConfig();
       console.log('processing request ...')
       const salesDetail = await getTokoproSalesDetail();
       // console.log('salesDetail', salesDetail);
@@ -116,6 +118,7 @@ app.whenReady().then(() => {
   // IPC Submit Stock Detail
   ipcMain.handle('submit-stock-detail', async (_event) => {
     try {
+      const {submitStockDetailUrl, headers} = await getConfig();
       console.log('processing request ...')
       const stockDetail = await getTokoproStockDetail();
       // console.log('stockDetail', stockDetail);
@@ -138,7 +141,6 @@ app.whenReady().then(() => {
       store.set('lastStockUpdate', lastStockUpdate);
       console.log('done')
 
-      // event.reply('submit-stock-detail-reply', reply);
       return reply;
     } catch (error:any) {
       throw (`Error submitting: ${error.message}`);
