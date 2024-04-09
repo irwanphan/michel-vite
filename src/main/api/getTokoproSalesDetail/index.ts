@@ -8,11 +8,11 @@ const sqlQuerySalesDetail = `
         'IV' DocType, 
         DATE_FORMAT(tbt.TglForm,'%Y%m%d') InvoiceDate, 
         tbt.NoForm InvoiceNo, 
-        tbitem.NoItem ItemNo, 
+        CAST(tbitem.NoItem AS CHAR) ItemNo, 
         tbitem.KodeBarang PartNumber, 
         tbitem.NamaBarang PartDesc, 
         tbitem.KodeBarang CAI, 
-        tbitem.Qty Qty 
+        CAST(tbitem.Qty AS SIGNED) Qty
     FROM tbfakturjual tbt, tbfakturjual_item tbitem, tbpelanggan, tbbarang   
         WHERE tbt.NoForm=tbitem.NoForm 
         AND tbt.KodePelanggan=tbpelanggan.Kode 
@@ -38,7 +38,7 @@ export const getTokoproSalesDetail = async () => {
         })
         connection = await pool.getConnection();
         const salesDetail = await connection.query(sqlQuerySalesDetail);
-        // console.log('rows', salesDetail[0]);
+        console.log('rows', salesDetail[0]);
         return salesDetail[0];
     } catch (error) {
         throw error;
