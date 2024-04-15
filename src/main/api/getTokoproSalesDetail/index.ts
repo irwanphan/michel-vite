@@ -2,8 +2,10 @@ import ElectronStore from 'electron-store'
 import { createPool, Pool } from 'mysql2/promise'
 import { ConfigType } from '../../ConfigType';
 
+        // tbt.KodePelanggan ADRegNo,
 const sqlQuerySalesDetail = `
-    SELECT tbt.KodePelanggan ADRegNo, 
+    SELECT 
+        tbpelanggan.add1 ADRegNo, 
         tbpelanggan.Nama ADCustomerName, 
         'IV' DocType, 
         DATE_FORMAT(tbt.TglForm,'%Y%m%d') InvoiceDate, 
