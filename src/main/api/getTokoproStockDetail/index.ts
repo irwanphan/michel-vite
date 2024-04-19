@@ -3,12 +3,15 @@ import { createPool, Pool } from 'mysql2/promise'
 import { ConfigType } from '../../ConfigType';
 
 const sqlQueryStockDetail = `
-    SELECT tbbarang.Kode CAI, tbqty.KodeGudang WarehouseCode, tbqty.QtyReady Qty, '' Remarks 
+    SELECT 
+        tbbarang.Kode CAI, 
+        tbqty.KodeGudang WarehouseCode, 
+        tbqty.QtyReady Qty, 
+        '' Remarks 
     FROM tbbarang, tbqty 
     WHERE 
-        tbbarang.KodeMerk='MICHELIN'
-        AND 
-        tbbarang.Kode=tbqty.KodeBarang 
+        (tbbarang.KodeMerk='MICHELIN' OR tbbarang.KodeMerk='BFG')
+        AND tbbarang.Kode=tbqty.KodeBarang 
 `;
 
 export const getTokoproStockDetail = async () => {
