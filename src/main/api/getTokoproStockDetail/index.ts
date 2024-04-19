@@ -5,8 +5,10 @@ import { ConfigType } from '../../ConfigType';
 const sqlQueryStockDetail = `
     SELECT tbbarang.Kode CAI, tbqty.KodeGudang WarehouseCode, tbqty.QtyReady Qty, '' Remarks 
     FROM tbbarang, tbqty 
-    WHERE tbbarang.Kode=tbqty.KodeBarang 
-    AND tbbarang.KodeMerk='MICHELIN'
+    WHERE 
+        tbbarang.KodeMerk='MICHELIN'
+        AND 
+        tbbarang.Kode=tbqty.KodeBarang 
 `;
 
 export const getTokoproStockDetail = async () => {

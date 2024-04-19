@@ -3,6 +3,15 @@ import { createPool, Pool } from 'mysql2/promise'
 import { ConfigType } from '../../ConfigType';
 
         // tbt.KodePelanggan ADRegNo,
+        // FROM tbfakturjual tbt, tbfakturjual_item tbitem, tbpelanggan, tbbarang   
+        // WHERE 
+        // tbt.NoForm=tbitem.NoForm 
+        // AND tbt.KodePelanggan=tbpelanggan.Kode 
+        // AND tbitem.KodeBarang=tbbarang.Kode 
+        // AND tbbarang.KodeMerk='MICHELIN' OR tbbarang.KodeMerk='BFG' 
+        // AND tbt.TglForm>=IF(DAY(CURDATE())<=5,DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-01'),DATE_FORMAT(CURDATE(), '%Y-%m-06'))
+        // AND tbt.TglForm<=IF(DAY(CURDATE())<=5,DATE_FORMAT(CURDATE(),'%Y-%m-05'),LAST_DAY(CURDATE()))
+
 const sqlQuerySalesDetail = `
     SELECT 
         tbpelanggan.add1 ADRegNo, 
@@ -15,13 +24,15 @@ const sqlQuerySalesDetail = `
         tbitem.NamaBarang PartDesc, 
         tbitem.KodeBarang CAI, 
         CAST(tbitem.Qty AS SIGNED) Qty
-    FROM tbfakturjual tbt, tbfakturjual_item tbitem, tbpelanggan, tbbarang   
-        WHERE tbt.NoForm=tbitem.NoForm 
-        AND tbt.KodePelanggan=tbpelanggan.Kode 
-        AND tbitem.KodeBarang=tbbarang.Kode 
-        AND tbbarang.KodeMerk='MICHELIN'
-        AND tbt.TglForm>=IF(DAY(CURDATE())<=5,DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-01'),DATE_FORMAT(CURDATE(), '%Y-%m-06'))
-        AND tbt.TglForm<=IF(DAY(CURDATE())<=5,DATE_FORMAT(CURDATE(),'%Y-%m-05'),LAST_DAY(CURDATE()))
+    FROM
+        tbfakturjual tbt
+        INNER JOIN tbfakturjual_item tbitem ON tbt.NoForm=tbitem.NoForm 
+        INNER JOIN tbpelanggan ON tbt.KodePelanggan=tbpelanggan.Kode 
+        INNER JOIN tbbarang ON tbitem.KodeBarang=tbbarang.Kode
+    WHERE 
+        (tbbarang.KodeMerk='MICHELIN' OR tbbarang.KodeMerk='BFG')
+        AND tbt.TglForm >= IF(DAY(CURDATE()) <= 5, DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-01'), DATE_FORMAT(CURDATE(), '%Y-%m-06'))
+        AND tbt.TglForm <= IF(DAY(CURDATE()) <= 5, DATE_FORMAT(CURDATE(),'%Y-%m-05'), LAST_DAY(CURDATE()));
 `;
 
 export const getTokoproSalesDetail = async () => {
