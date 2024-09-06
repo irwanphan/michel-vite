@@ -5,8 +5,8 @@ import { ConfigType } from '../../ConfigType';
 const sqlQueryStockDetail = `
     SELECT 
         tbbarang.Kode CAI, 
-        tbqty.KodeGudang WarehouseCode, 
-        tbqty.QtyReady Qty, 
+        tbqty.KodeGudang WarehouseCode,
+        CAST(tbqty.QtyReady AS UNSIGNED) Qty,
         '' Remarks 
     FROM tbbarang, tbqty 
     WHERE 
@@ -30,7 +30,7 @@ export const getTokoproStockDetail = async () => {
         })
         connection = await pool.getConnection();
         const stockDetail = await connection.query(sqlQueryStockDetail);
-        // console.log('rows', stockDetail[0]);
+        console.log('rows', stockDetail[0]);
         return stockDetail[0];
     } catch (error) {
         throw error;
