@@ -12,6 +12,10 @@ import { ConfigType } from '../../ConfigType';
         // AND tbt.TglForm>=IF(DAY(CURDATE())<=5,DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-01'),DATE_FORMAT(CURDATE(), '%Y-%m-06'))
         // AND tbt.TglForm<=IF(DAY(CURDATE())<=5,DATE_FORMAT(CURDATE(),'%Y-%m-05'),LAST_DAY(CURDATE()))
 
+        // (tbbarang.KodeMerk='MICHELIN' OR tbbarang.KodeMerk='BFG')
+        // AND tbt.TglForm >= IF(DAY(CURDATE()) <= 5, DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-01'), DATE_FORMAT(CURDATE(), '%Y-%m-06'))
+        // AND tbt.TglForm <= IF(DAY(CURDATE()) <= 5, DATE_FORMAT(CURDATE(),'%Y-%m-05'), LAST_DAY(CURDATE()));
+
 const sqlQuerySalesDetail = `
     SELECT 
         tbpelanggan.add1 ADRegNo, 
@@ -31,8 +35,8 @@ const sqlQuerySalesDetail = `
         INNER JOIN tbbarang ON tbitem.KodeBarang=tbbarang.Kode
     WHERE 
         (tbbarang.KodeMerk='MICHELIN' OR tbbarang.KodeMerk='BFG')
-        AND tbt.TglForm >= IF(DAY(CURDATE()) <= 5, DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-01'), DATE_FORMAT(CURDATE(), '%Y-%m-06'))
-        AND tbt.TglForm <= IF(DAY(CURDATE()) <= 5, DATE_FORMAT(CURDATE(),'%Y-%m-05'), LAST_DAY(CURDATE()));
+        AND tbt.TglForm >= IF(DAY(CURDATE()) <= 5, DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-01'), DATE_FORMAT(CURDATE(), '%Y-%m-01'))
+        AND tbt.TglForm <= IF(DAY(CURDATE()) <= 5, DATE_FORMAT(CURDATE(),'%Y-%m-05'), CURDATE());
 `;
 
 export const getTokoproSalesDetail = async () => {
