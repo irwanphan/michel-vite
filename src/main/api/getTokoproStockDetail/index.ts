@@ -2,10 +2,11 @@ import ElectronStore from 'electron-store'
 import { createPool, Pool } from 'mysql2/promise'
 import { ConfigType } from '../../ConfigType';
 
+// tbqty.KodeGudang WarehouseCode,
 const sqlQueryStockDetail = `
     SELECT 
         tbbarang.Kode CAI, 
-        tbqty.KodeGudang WarehouseCode,
+        'W01' WarehouseCode,
         CAST(tbqty.QtyReady AS UNSIGNED) Qty,
         '' Remarks 
     FROM tbbarang, tbqty 
